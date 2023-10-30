@@ -2,6 +2,7 @@ package co.com.udem.arbol;
 
 public class ProgramaArbol {
     private ProgramaNodo raiz;
+
     public ProgramaArbol() {
         raiz = null;
     }
@@ -113,6 +114,17 @@ public class ProgramaArbol {
         }
         return 1 + contarNodosRec(nodo.getIzquierdo()) + contarNodosRec(nodo.getDerecho());
     }
-
+    public boolean buscar(int valor) {
+        return buscarRec(raiz, valor);
+    }
+    //mejora:
+    private boolean buscarRec(ProgramaNodo nodo, int valor) {
+        if (nodo == null) {
+            return false;
+        }
+        if (nodo.getValor() == valor) {
+            return true;
+        }
+        return buscarRec(nodo.getIzquierdo(), valor) || buscarRec(nodo.getDerecho(), valor);
+    }
 }
-

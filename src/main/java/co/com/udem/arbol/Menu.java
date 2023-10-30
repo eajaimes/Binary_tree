@@ -1,6 +1,7 @@
 package co.com.udem.arbol;
 
 import java.util.Scanner;
+import java.util.List;
 
 public class Menu {
 
@@ -18,7 +19,7 @@ public class Menu {
             System.out.println("-----------------------------------");
             System.out.println("0: Crear un árbol vacío");
             System.out.println("-----------------------------------------------------");
-            System.out.println("Cualquier numero positivo: Crear árbol con nodos");
+            System.out.println("Cualquier número positivo: Crear árbol con nodos");
             System.out.println("-----------------------------------------------------");
             System.out.println("X: Salir del programa");
             System.out.println("-----------------------------------");
@@ -34,7 +35,7 @@ public class Menu {
                     crear_arbol_inf(arbol, scanner);
                     break;
                 case "0":
-                    System.out.println("se creo un arbol vacio");
+                    System.out.println("Se creó un árbol vacío");
                     arbol = new ProgramaArbol();
                     break;
                 default:
@@ -43,11 +44,11 @@ public class Menu {
                         arbol = new ProgramaArbol();
                         arbol_cant_nodos(cantidad, arbol, scanner);
                     } catch (NumberFormatException e) {
-                        System.out.println("Error, esta opcion no esta disponible, ingrese algo valido.");
+                        System.out.println("Error, esta opción no está disponible, ingrese algo válido.");
                     }
             }
             if (arbol != null && !exit) {
-                menu_opc(arbol);
+                menu_opc(arbol, scanner);
             }
         }
         scanner.close();
@@ -64,7 +65,7 @@ public class Menu {
                 int valor = Integer.parseInt(valorNodo);
                 arbol.insertar(valor);
             } catch (NumberFormatException e) {
-                System.out.println("Error, debes ingresar un numero o X para salir.");
+                System.out.println("Error, debes ingresar un número o X para salir.");
             }
         }
     }
@@ -79,7 +80,7 @@ public class Menu {
                     arbol.insertar(valorNodo);
                     i++;
                 } else {
-                    System.out.println("error, debes ingresar un número.");
+                    System.out.println("Error, debes ingresar un número.");
                     scanner.next();
                 }
             } catch (NumberFormatException e) {
@@ -88,7 +89,7 @@ public class Menu {
         }
     }
 
-    private static void menu_opc(ProgramaArbol arbol) {
+    private static void menu_opc(ProgramaArbol arbol, Scanner scanner) {
         System.out.println("Menu opc");
 
         System.out.println("-- Recorrido PostOrder del árbol ingresado anteriormente --");
@@ -107,13 +108,40 @@ public class Menu {
         System.out.println("Numero de Hojas : " + cantidadHojas);
 
         int altura = arbol.altura();
-        System.out.println("Altura : " + altura );
+        System.out.println("Altura : " + altura);
 
         boolean esCompleto = arbol.esCompleto();
-        System.out.println("Decir si es completo o no: " + (esCompleto ? "Si es completo!" : "No es completo :(") );
+        System.out.println("Decir si es completo o no: " + (esCompleto ? "Si es completo!" : "No es completo :("));
 
         int cantidadNodos = arbol.contarNodos();
         System.out.println("Número de nodos: " + cantidadNodos);
         System.out.println();
+        scanner.nextLine();
+
+        // Nueva funcionalidad, buscar numero dentro de los nodos y ver si existe o no.
+        System.out.print("Se han agregado las funcionalidades de búsqueda de nodos (Si or No): ");
+        String respuesta = scanner.nextLine().trim();
+
+        if (respuesta.equalsIgnoreCase("Si")) {
+            System.out.print("Ingrese el valor del nodo inicial: ");
+            int valorNodoInicio = scanner.nextInt();
+            System.out.print("Ingrese el valor del nodo final: ");
+            int valorNodoFin = scanner.nextInt();
+            scanner.nextLine();
+
+
+            System.out.print("Ingrese el valor del nodo a buscar: ");
+            int valorBuscar = scanner.nextInt();
+            scanner.nextLine();
+
+            boolean encontrado = arbol.buscar(valorBuscar);
+            System.out.println("El valor " + valorBuscar + (encontrado ? " se encuentra" : " no se encuentra") + " en el árbol.");
+        } else if (respuesta.equalsIgnoreCase("No")) {
+            System.out.println("Saliendo de las funcionalidades agregadas.");
+        } else {
+            System.out.println("Opción no reconocida. Saliendo.");
+        }
     }
 }
+
+
